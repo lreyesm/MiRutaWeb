@@ -1,0 +1,80 @@
+<div class="width-screen">
+    <div class="row row-cols-2 fadeIn">
+      <div class="col"> 
+        <h2 class="margin-top-20">Tabla de ITACs</h2>
+      </div>
+      <div class="col"> 
+        <button class="btn btn-primary float-right margin-top-20"
+        (click)="openTareas()"
+        >Tabla de Tareas</button>
+      </div>
+    </div>
+  
+    <nav class="margin-top-20 width-screen" aria-label="..." *ngIf="numberPaginations > 1 && !loading">
+      <ul class="pagination">
+  <!-- 
+        <li class="page-item active" aria-current="page">
+          <a class="page-link" href="#">1<span class="sr-only">(current)</span></a>
+        </li> -->
+  
+        <li *ngFor="let n of [] | range:numberPaginations; let i=index" 
+          class="page-item" [ngClass]="{'active': (i==0)}" routerLinkActive="active">
+        <a class="page-link" (click)="openPage(i)" [routerLink]="['/itacsrange', i+1]" >{{ i+1 }}</a></li>
+        
+        
+        <li class="page-item disabled" (click)="openNextPage()">
+          <a class="page-link" >Siguiente</a>
+        </li>
+      </ul>
+    </nav>
+  
+    <hr>  
+  
+    <div class="row fadeIn">
+        <div class="col-md-12"></div>
+        <div class="table-responsive">
+            <table class="table">
+                <thead class="thead-dark">
+                  <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Sector P</th>
+                    <th scope="col">Dirección</th>
+                    <th scope="col">Código</th>                    
+                    <th scope="col">Gestor</th>                              
+                    <th scope="col">Puntuación</th>
+                    <th scope="col">Acción</th>  
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let itac of itacs; let i=index">
+                    <th scope="row">{{ i+1 }}</th>
+                    <td>{{ itac.zona }}</td>
+                    <td>{{ itac.itac }}</td>
+                    <td>{{ itac.codigo_itac }}</td>                
+                    <td>{{ itac.gestor }}</td>                
+                    <td>{{ itac.puntuacion }}</td>
+                    <td>
+                      <div class="row">
+                        <button [routerLink]="[ '/itac', itac.id ]" class="btn btn-primary">Abrir</button>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+  
+              <div *ngIf="itacs.length == 0 && !loading"
+              class="alert alert-info" role="alert">
+                <strong>No hay</strong> ITACs que mostrar
+              </div>
+  
+              <div *ngIf="loading"
+                class="alert alert-warning" role="alert">              
+                <div class="spinner-border float-center" style="width: 1rem; height: 1rem;" role="status">
+                  <span class="sr-only">Loading...</span>
+                </div>
+                <strong>  Cargando itacs... </strong> por favor espere
+              </div>
+        </div>
+    </div>
+  
+  </div>

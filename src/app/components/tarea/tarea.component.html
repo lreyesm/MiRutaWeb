@@ -1,0 +1,349 @@
+
+<div *ngIf="tarea" class="width-screen margin-bottom animated fadeIn">
+  <div>
+    <div class="container" style="margin-right: 0px;margin-left: 0px;max-width: 1920px;margin-top: 20px;">
+        <div class="row">
+            <div class="col-md-6">
+                <h1 style="color: #368dce;">Tarea</h1>
+            </div>
+
+            <div class="col-md-6 text-right align-self-center">
+<!-- 
+              <button class="btn btn-primary" 
+              type="button" style="background-color: rgb(54,141,206);"
+              [routerLink]="['/mapasMapboxTarea', id]">Geolocalización</button> -->
+          </div>
+        </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-10">
+      <div class="container" style="margin-top: 20px;">
+          <div class="row">
+              <div class="col-md-3 text-center align-self-center">
+                <div class="input-group input-group-sm mb-3">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text background-color-blue-app" id="inputGroup-sizing-sm">ID Orden CABB</span>
+                  </div>
+                  <input value="{{ tarea.idOrdenCABB }}" type="text" class="form-control" 
+                  aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
+                </div> 
+              </div>
+              <div class="col-md-3 text-center align-self-center">
+                <div class="input-group input-group-sm mb-3">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text background-color-blue-app" id="inputGroup-sizing-sm">Tipo Orden</span>
+                  </div>
+                  <input value="{{ tarea.TIPORDEN }}" type="text" class="form-control" 
+                  aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
+              </div> 
+              </div>
+              <div class="col-md-3 text-center align-self-center">
+                <div class="input-group input-group-sm mb-3">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text background-color-blue-app" id="inputGroup-sizing-sm">Número interno</span>
+                  </div>
+                  <input value="{{ tarea.NUMIN }}" type="text" class="form-control" 
+                  aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
+                </div> 
+              </div>
+              <div class="col-md-3 text-center align-self-center">
+                <div class="input-group input-group-sm mb-3">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text background-color-blue-app" id="inputGroup-sizing-sm">Fecha de Emisión</span>
+                  </div>
+                  <input value="{{ tarea.FECEMISIO | date: 'dd/MM/yyyy'}}" type="text" class="form-control" 
+                  aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
+                </div> 
+              </div>
+          </div>
+      </div>
+      <div class="container">
+        <div class="row">
+            <div class="col-md-3 text-center align-self-center">
+              <div class="input-group input-group-sm mb-3">
+                <div class="input-group-prepend">
+                  <span class="input-group-text background-color-blue-app" id="inputGroup-sizing-sm">Fecha de Cierre</span>
+                </div>
+                <input value="{{ tarea.FECH_CIERRE | date: 'dd/MM/yyyy' }}" type="text" class="form-control" 
+                aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
+              </div>  
+            </div>
+            <div class="col-md-3 text-center align-self-center">
+              <div class="input-group input-group-sm mb-3">
+                <div class="input-group-prepend">
+                  <span class="input-group-text background-color-blue-app" id="inputGroup-sizing-sm">Fecha de Información</span>
+                </div>
+                <input value="{{ tarea.fech_informacionnew | date: 'dd/MM/yyyy'}}" type="text" class="form-control" 
+                aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
+              </div> 
+            </div>
+            <div class="col-md-3 text-center align-self-center">
+              <div class="input-group input-group-sm mb-3">
+                <div class="input-group-prepend">
+                  <span class="input-group-text background-color-blue-app" id="inputGroup-sizing-sm">Gestor</span>
+                </div>
+                <input value="{{ tarea.GESTOR }}" type="text" class="form-control" 
+                aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
+              </div>  
+            </div>
+            <div class="col-md-3 text-center align-self-center">
+              <div class="input-group input-group-sm mb-3">
+                <div class="input-group-prepend">
+                  <span class="input-group-text background-color-blue-app" id="inputGroup-sizing-sm">Fontanero</span>
+                </div>
+                <input value="{{ tarea.OPERARIO }}" type="text" class="form-control" 
+                aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
+              </div> 
+            </div>
+        </div>
+      </div>
+    </div>
+    <div *ngIf="valid_coords" class="col-md-2 text-center justify-content-center align-items-center">
+      <app-mapa-map-box-tarea-mini [routerLink]="['/mapasMapboxTarea', id]"></app-mapa-map-box-tarea-mini>
+    </div>
+  </div>
+
+  <div class="row" style="margin-top: 30px; margin-bottom: 20px;">
+    <div class="col text-center align-self-center"><label class="col-form-label text-center" style="font-size: 24px;color: #368dce;">Contador Levantado</label></div>
+    <div class="col text-center align-self-center"><label class="col-form-label text-center" style="font-size: 24px;color: #368dce;">Contador Instalado</label></div>
+  </div>
+  <div class="row" style="min-height: 200px;">
+    <div class="col">
+        <div class="row">
+            <div class="col text-center align-self-center">
+              <div class="input-group input-group-sm mb-3">
+                <div class="input-group-prepend">
+                  <span class="input-group-text background-color-blue-app" id="inputGroup-sizing-sm">Serie</span>
+                </div>
+                <input value="{{ tarea.SERIE }}" type="text" class="form-control" 
+                aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
+              </div>
+            </div>
+            <div class="col text-center align-self-center">
+              <div class="input-group input-group-sm mb-3">
+                <div class="input-group-prepend">
+                  <span class="input-group-text background-color-blue-app" id="inputGroup-sizing-sm">Lectura</span>
+                </div>
+                <input value="{{ tarea.LECT_LEV }}" type="text" class="form-control" 
+                aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
+              </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col text-center">
+              <div class="input-group input-group-sm mb-3">
+                <div class="input-group-prepend">
+                  <span class="input-group-text background-color-blue-app" id="inputGroup-sizing-sm">Calibre</span>
+                </div>
+                <input value="{{ tarea.CALIBRE }}" type="text" class="form-control" 
+                aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
+              </div> 
+            </div>
+            <div class="col text-center align-self-center">
+              <div class="input-group input-group-sm mb-3">
+                <div class="input-group-prepend">
+                  <span class="input-group-text background-color-blue-app" id="inputGroup-sizing-sm">Radio</span>
+                </div>
+                <input value="{{ tarea.tipoRadio }}" type="text" class="form-control" 
+                aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
+              </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col text-center align-self-center">
+              <div class="input-group input-group-sm mb-3">
+                <div class="input-group-prepend">
+                  <span class="input-group-text background-color-blue-app" id="inputGroup-sizing-sm">Fecha de Instalación</span>
+                </div>
+                <input value="{{ tarea.FECINST | date: 'dd/MM/yyyy' }}" type="text" class="form-control" 
+                aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
+              </div>              
+            </div>
+            <div class="col text-center align-self-center">
+              <div class="input-group input-group-sm mb-3">
+                <div class="input-group-prepend">
+                  <span class="input-group-text background-color-blue-app" id="inputGroup-sizing-sm">Causa Origen</span>
+                </div>
+                <input value="{{ tarea.causa_origen }}" type="text" class="form-control" 
+                aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
+              </div>
+            </div>
+        </div>
+    </div>
+    <div class="col">
+        <div class="row">
+            <div class="col text-center align-self-center">
+              <div class="input-group input-group-sm mb-3">
+                <div class="input-group-prepend">
+                  <span class="input-group-text background-color-blue-app" id="inputGroup-sizing-sm">Serie</span>
+                </div>
+                <input value="{{ tarea.seriedv }}" type="text" class="form-control" 
+                aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
+              </div>
+            </div>
+            <div class="col text-center align-self-center">
+              <div class="input-group input-group-sm mb-3">
+                <div class="input-group-prepend">
+                  <span class="input-group-text background-color-blue-app" id="inputGroup-sizing-sm">Lectura</span>
+                </div>
+                <input value="{{ tarea.LECTURA_CONTADOR_NUEVO }}" type="text" class="form-control" 
+                aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
+              </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col text-center">
+              <div class="input-group input-group-sm mb-3">
+                <div class="input-group-prepend">
+                  <span class="input-group-text background-color-blue-app" id="inputGroup-sizing-sm">Calibre</span>
+                </div>
+                <input value="{{ tarea.CALIBREDV }}" type="text" class="form-control" 
+                aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
+              </div>
+            </div>
+            <div class="col text-center align-self-center">
+              <div class="input-group input-group-sm mb-3">
+                <div class="input-group-prepend">
+                  <span class="input-group-text background-color-blue-app" id="inputGroup-sizing-sm">Radio</span>
+                </div>
+                <input value="{{ tarea.TIPORADIO_DEVUELTO }}" type="text" class="form-control" 
+                aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
+              </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col text-center align-self-center">
+              <div class="input-group input-group-sm mb-3">
+                <div class="input-group-prepend">
+                  <span class="input-group-text background-color-blue-app" id="inputGroup-sizing-sm">Fecha de Ejecución</span>
+                </div>
+                <input value="{{ tarea.F_INST | date: 'dd/MM/yyyy' }}" type="text" class="form-control" 
+                aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
+              </div> 
+            </div>
+            <div class="col text-center align-self-center">
+              <div class="input-group input-group-sm mb-3">
+                <div class="input-group-prepend">
+                  <span class="input-group-text background-color-blue-app" id="inputGroup-sizing-sm">Causa destino</span>
+                </div>
+                <input value="{{ tarea.AREALIZARDV }}" type="text" class="form-control" 
+                aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
+              </div> 
+            </div>
+        </div>
+    </div>
+  </div>
+
+  <div  *ngIf="tarea.audio_detalle" class="row text-center justify-content-center align-items-center"
+   style="margin-top: 5px;">
+    <div class="col">
+      <audio controls [src]="dirFolder + tarea.audio_detalle | domseguro: 'https://mywateroute.com/Mi_Ruta/'"
+       type='video/3gpp codecs="mp4v.20.8, samr"'>
+        Your browser does not support the <code>audio</code> element.
+      </audio>
+    </div>
+  </div>
+
+  <div>
+    <div *ngIf="tarea.Estado!='INCIDENCIA'" class="container text-center align-self-center" style="margin-top: 40px;">
+        <div class="row">
+            <div class="col-md-3 text-center align-self-center">
+              <div *ngIf="tarea.foto_antes_instalacion" class="card" style="width: 16rem;">
+                <img [src]="urlFolder + tarea.foto_antes_instalacion" class="card-img-top"
+                 alt="Foto Antes Instalacion." onError="this.src='assets/img/noimage.png'">
+                <div class="card-body">
+                  <h5 class="card-title text-center">Antes de Instalación</h5>
+                  <a [routerLink]="['/zoomImage', urlFolder + tarea.foto_antes_instalacion]"
+                   class="btn btn-outline-primary width-screen">Mostrar</a>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-3 text-center align-self-center">
+              <div *ngIf="tarea.foto_numero_serie" class="card" style="width: 16rem;">
+                <img [src]="urlFolder + tarea.foto_numero_serie" class="card-img-top" 
+                alt="Foto Numero Serie" onError="this.src='assets/img/noimage.png'">
+                <div class="card-body">
+                  <h5 class="card-title text-center">Número de Serie</h5>
+                  <a [routerLink]="['/zoomImage', urlFolder + tarea.foto_numero_serie]"
+                   class="btn btn-outline-primary width-screen">Mostrar</a>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-3 text-center align-self-center">
+              <div *ngIf="tarea.foto_lectura" class="card" style="width: 16rem;">
+                <img [src]="urlFolder + tarea.foto_lectura" class="card-img-top" 
+                alt="Foto de Lectura" onError="this.src='assets/img/noimage.png'">
+                <div class="card-body">
+                  <h5 class="card-title text-center">Foto de Lectura</h5>
+                  <a [routerLink]="['/zoomImage', urlFolder + tarea.foto_lectura]" 
+                  class="btn btn-outline-primary width-screen">Mostrar</a>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-3 text-center align-self-center">
+              <div *ngIf="tarea.foto_despues_instalacion" class="card" style="width: 16rem;">
+                <img [src]="urlFolder + tarea.foto_despues_instalacion" class="card-img-top"
+                 alt="Después de Instalacion" onError="this.src='assets/img/noimage.png'">
+                <div class="card-body">
+                  <h5 class="card-title text-center">Después de Instalación</h5>
+                  <a [routerLink]="['/zoomImage', urlFolder + tarea.foto_despues_instalacion]" 
+                  class="btn btn-outline-primary width-screen">Mostrar</a>
+                </div>
+              </div>
+            </div>
+        </div>
+    </div>
+  </div>
+  <div>
+    <div *ngIf="tarea.Estado=='INCIDENCIA'" class="container text-center align-self-center">
+        <div class="row">
+            <div class="col-md-3 text-center align-self-center">
+              <div *ngIf="urlFolder + tarea.foto_incidencia_1" class="card" style="width: 16rem;">
+                <img [src]="urlFolder + tarea.foto_incidencia_1" class="card-img-top"
+                 alt="Foto Incidencia 1" onError="this.src='assets/img/noimage.png'">
+                <div class="card-body">
+                  <h5 class="card-title text-center">Foto de Incidencia 1</h5>
+                  <a [routerLink]="['/zoomImage', urlFolder + tarea.foto_incidencia_1]"
+                   class="btn btn-outline-primary width-screen">Mostrar</a>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-3 text-center align-self-center">
+              <div *ngIf="tarea.foto_incidencia_2" class="card" style="width: 16rem;">
+                <img [src]="urlFolder + tarea.foto_incidencia_2" class="card-img-top" 
+                alt="Foto Incidencia 2" onError="this.src='assets/img/noimage.png'">
+                <div class="card-body">
+                  <h5 class="card-title text-center">Foto de Incidencia 2</h5>
+                  <a [routerLink]="['/zoomImage', urlFolder + tarea.foto_incidencia_2]" 
+                  class="btn btn-outline-primary width-screen">Mostrar</a>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-3 text-center align-self-center">
+              <div *ngIf="tarea.foto_incidencia_3" class="card" style="width: 16rem;">
+                <img [src]="urlFolder + tarea.foto_incidencia_3" class="card-img-top"
+                 alt="Foto de Incidencia 3" onError="this.src='assets/img/noimage.png'">
+                <div class="card-body">
+                  <h5 class="card-title text-center">Foto de Incidencia 3</h5>
+                  <a [routerLink]="['/zoomImage', urlFolder + tarea.foto_incidencia_3]" 
+                  class="btn btn-outline-primary width-screen">Mostrar</a>
+                </div>
+            </div>
+            </div>
+            <div class="col-md-3 text-center align-self-center">
+              <div *ngIf="tarea.firma_cliente" class="card margin-top-20" style="width: 16rem;">
+                <img [src]="urlFolder + tarea.firma_cliente" class="card-img-top" 
+                alt="Foto de Firma" onError="this.src='assets/img/noimage.png'">
+                <div class="card-body">
+                  <h5 class="card-title text-center">Firma del cliente</h5>
+                  <a [routerLink]="['/zoomImage', urlFolder + tarea.firma_cliente]"
+                   class="btn btn-outline-primary width-screen">Mostrar</a>
+                </div>
+            </div>
+            </div>
+        </div>
+    </div>
+  </div>
+  <br><br><br>
+</div>

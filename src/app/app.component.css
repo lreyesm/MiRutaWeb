@@ -1,0 +1,86 @@
+.register-photo {
+    background: #f1f7fc;
+    padding: 80px 0;
+  }
+  
+  .register-photo .image-holder {
+    display: table-cell;
+    width: auto;
+    background: url('src/assets/img/valvulas_de_calidad.jpg');
+    background-size: cover;
+  }
+  
+  .register-photo .form-container {
+    display: table;
+    max-width: 1000px;
+    width: 90%;
+    margin: 0 auto;
+    margin-top: 10%;
+    box-shadow: 1px 1px 5px rgba(0,0,0,0.1);
+  }
+  
+  .myform {
+    display: table-cell;
+    width: 400px;
+    background-color: #ffffff;
+    padding: 40px 60px;
+    color: #505e6c;
+  }
+  
+  @media (max-width:991px) {
+    .myform {
+      padding: 40px;
+    }
+  }
+  
+  .myform h2 {
+    font-size: 24px;
+    line-height: 1.5;
+    margin-bottom: 30px;
+  }
+  
+  .myform .form-control {
+    background: #f7f9fc;
+    border: none;
+    border-bottom: 1px solid #dfe7f1;
+    border-radius: 0;
+    box-shadow: none;
+    outline: none;
+    color: inherit;
+    text-indent: 6px;
+    height: 40px;
+  }
+  
+  .myform .form-check {
+    font-size: 13px;
+    line-height: 20px;
+  }
+  
+  .myform .btn-primary {
+    background: #f4476b;
+    border: none;
+    border-radius: 4px;
+    padding: 11px;
+    box-shadow: none;
+    margin-top: 35px;
+    text-shadow: none;
+    outline: none !important;
+  }
+  
+  .myform .btn-primary:hover, .myform .btn-primary:active {
+    background: #eb3b60;
+  }
+  
+  .myform .btn-primary:active {
+    transform: translateY(1px);
+  }
+  
+  .myform .already {
+    display: block;
+    text-align: center;
+    font-size: 12px;
+    color: #6f7a85;
+    opacity: 0.9;
+    text-decoration: none;
+  }
+  
