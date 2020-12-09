@@ -1,0 +1,66 @@
+<div class="width-screen">
+    <div class="row row-cols-2 fadeIn">
+      <div class="col"> 
+        <h2 class="margin-top-20">Resultados: {{ countTareas }}</h2>
+      </div> 
+      
+    </div>
+  
+    <hr>  
+  
+    <div class="row fadeIn">
+        <div class="col-md-12">
+          <div class="table-responsive">
+              <table class="table">
+                  <thead class="thead-dark">
+                    <tr>
+                      <th scope="col">#</th>
+                      <th scope="col">Población</th>
+                      <th scope="col">Calle</th>
+                      <th scope="col">Portal</th>
+                      <th scope="col">Abonado</th>  
+                      <th scope="col">Serie Levantado</th>
+                      <th scope="col">Lectura Levantado</th>   
+                      <th scope="col">Serie Instalado</th>   
+                      <th scope="col">Lectura Instalado</th>                           
+                      <th scope="col">Estado</th>
+                      <th scope="col">Acción</th>  
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let tarea of tareas; let i=index">
+                      <th scope="row">{{ i+1 }}</th>
+                      <td>{{ tarea.MUNICIPIO }}</td>
+                      <td>{{ tarea.CALLE }}</td>
+                      <td>{{ tarea.NUME }}</td>                
+                      <td>{{ tarea.Numero_de_ABONADO }}</td>    
+                      <td>{{ tarea.SERIE }}</td>    
+                      <td>{{ tarea.LECT_LEV }}</td>  
+                      <td>{{ tarea.seriedv }}</td>   
+                      <td>{{ tarea.LECTURA_CONTADOR_NUEVO }}</td>            
+                      <td>{{ tarea.status_tarea | displaystatus }}</td>
+                      <td>
+                        <div class="row">
+                          <button [routerLink]="['/tarea', tarea.id]" class="btn btn-primary">Abrir</button>
+                        </div>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+    
+                <div *ngIf="tareas.length == 0 && !loading"
+                class="alert alert-info" role="alert">
+                  <strong>No hay resultados</strong> para esta busqueda
+                </div>
+    
+                <div *ngIf="loading"
+                class="alert alert-warning" role="alert">              
+                  <div class="spinner-border float-center" style="width: 1rem; height: 1rem;" role="status">
+                    <span class="sr-only">Loading...</span>
+                  </div>
+                  <strong>  Buscando resultados... </strong> por favor espere
+                </div>
+          </div>
+        </div>
+    </div>  
+</div>

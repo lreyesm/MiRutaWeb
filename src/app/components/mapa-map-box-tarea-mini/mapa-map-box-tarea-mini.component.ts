@@ -25,13 +25,13 @@ export class MapaMapBoxTareaMiniComponent implements OnInit {
               private _globalFunctionsService: GlobalfunctionsService,
               private activeRoute: ActivatedRoute) {                 
                 
-                this.empresa = localStorage.getItem('empresa');      
-                console.log("constructor TareasComponent", this.empresa);
+                this.empresa = sessionStorage.getItem('empresa');      
+                //console.log("constructor TareasComponent", this.empresa);
 
                 this.activeRoute.params.subscribe((params:any)=>{
-                  console.log("params",params);
+                  //console.log("params",params);
                   this.id = params['id'];
-                  console.log("id",this.id);
+                  //console.log("id",this.id);
                   
                  this._requestService.getTarea(this.empresa, this.id).subscribe((tarea: any)=>{
                     let jsonArray = JSON.parse(tarea);
@@ -39,8 +39,8 @@ export class MapaMapBoxTareaMiniComponent implements OnInit {
                     let lat = _globalFunctionsService.getLatitudTarea(this.tarea);
                     let lng = _globalFunctionsService.getLongitudTarea(this.tarea);
 
-                    console.log("lat", lat);
-                    console.log("lng", lng);
+                    //console.log("lat", lat);
+                    //console.log("lng", lng);
 
                     if(_globalFunctionsService.checkIfFieldIsValid(lat) 
                       && _globalFunctionsService.checkIfFieldIsValid(lng)){
@@ -61,8 +61,8 @@ export class MapaMapBoxTareaMiniComponent implements OnInit {
 
   onGetTarea(){
     if(this.lat && this.lng){
-      console.log("this.lat", this.lat);
-      console.log("this.lng", this.lng);
+      //console.log("this.lat", this.lat);
+      //console.log("this.lng", this.lng);
       let text: string = "";
       if(this._globalFunctionsService.checkIfFieldIsValid(this.tarea.MUNICIPIO)){
         text = this.tarea.MUNICIPIO;       
@@ -111,7 +111,7 @@ export class MapaMapBoxTareaMiniComponent implements OnInit {
       .setLngLat([lng, lat])
       .addTo(this.mapa);      
       // marker.on('dragend', ()=>{ //Funcion para obtener el desplazamiento del marcador
-      //   console.log(marker.getLngLat());
+      //   //console.log(marker.getLngLat());
       // });
   }
 }

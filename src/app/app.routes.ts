@@ -13,6 +13,8 @@ import { MapaMapBoxTareaComponent } from './components/mapa-map-box-tarea/mapa-m
 import { ZoomImageComponent } from './components/zoom-image/zoom-image.component';
 import { MapaMapBoxTareaMiniComponent } from './components/mapa-map-box-tarea-mini/mapa-map-box-tarea-mini.component';
 import { MapaMapBoxItacMiniComponent } from './components/mapa-map-box-itac-mini/mapa-map-box-itac-mini.component';
+import { TareasSearchComponent } from './components/tareas-search/tareas-search.component';
+import { ItacsSearchComponent } from './components/itacs-search/itacs-search.component';
 
 
 // import { AuthGuardService } from './services/auth-guard.service';
@@ -30,6 +32,8 @@ const APP_ROUTES: Routes = [
     { path: 'tarea/:id', component: TareaComponent },
     { path: 'itac/:id', component: ItacComponent },
     { path: 'tareasrange/:id', component: TareasrangeComponent},
+    { path: 'tareas-search/:searchParameters', component: TareasSearchComponent},    
+    { path: 'itacs-search/:searchParameters', component: ItacsSearchComponent},
     { path: 'itacsrange/:id', component: ItacsrangeComponent},
     { path: '**', pathMatch: 'full', redirectTo: 'tareas' },
 

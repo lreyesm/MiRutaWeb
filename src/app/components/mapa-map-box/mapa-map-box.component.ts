@@ -25,17 +25,17 @@ export class MapaMapBoxComponent implements OnInit {
               private activeRoute: ActivatedRoute) { 
                 
                 this.activeRoute.params.subscribe((params:any)=>{
-                  console.log("params",params);
+                  //console.log("params",params);
                   this.id = params['id'];
-                  console.log("id",this.id);
+                  //console.log("id",this.id);
                   
                   // this.tarea = this._requestService.getTarea(this.id);
 
                   let lat = _globalFunctionsService.getLatitudTarea(this.tarea);
                   let lng = _globalFunctionsService.getLongitudTarea(this.tarea);
 
-                  console.log("lat", lat);
-                  console.log("lng", lng);
+                  //console.log("lat", lat);
+                  //console.log("lng", lng);
 
                   if(_globalFunctionsService.checkIfFieldIsValid(lat) 
                     && _globalFunctionsService.checkIfFieldIsValid(lng)){
@@ -65,8 +65,8 @@ export class MapaMapBoxComponent implements OnInit {
     });  
     
     if(this.lat && this.lng){
-      console.log("this.lat", this.lat);
-      console.log("this.lng", this.lng);
+      //console.log("this.lat", this.lat);
+      //console.log("this.lng", this.lng);
       let text: string = "";
       if(this._globalFunctionsService.checkIfFieldIsValid(this.tarea.MUNICIPIO)){
         text = this.tarea.MUNICIPIO;       
@@ -98,7 +98,7 @@ export class MapaMapBoxComponent implements OnInit {
       .setLngLat([lng, lat])
       .addTo(this.mapa);      
       // marker.on('dragend', ()=>{ //Funcion para obtener el desplazamiento del marcador
-      //   console.log(marker.getLngLat());
+      //   //console.log(marker.getLngLat());
       // });
   }
 

@@ -20,29 +20,34 @@ export class ItacComponent implements OnInit {
 
   constructor(private _requestService: RequestService,
               private _globalfunctionsService: GlobalfunctionsService,
-              private activatedRoute: ActivatedRoute) { 
+              private activatedRoute: ActivatedRoute,
+              private router: Router) { 
 
-                this.empresa = localStorage.getItem('empresa');
+                this.empresa = sessionStorage.getItem('empresa');
       
-                console.log("constructor ItacComponent", this.empresa);
+                //console.log("constructor ItacComponent", this.empresa);
 
                 this.activatedRoute.params.subscribe(parametros=>{
-                  console.log(parametros);
+                  //console.log(parametros);
                   this.id = parametros['id'];
                   if(this.id != -1){
-                    this._requestService.getItac(this.empresa, this.id).subscribe((itac: any)=>{
+                    this._requestService.getItac(this.empresa, this.id).subscribe((itac: any)=>{                      
                       let jsonArray = JSON.parse(itac);
                       this.itac = jsonArray[0];
 
-                      console.log("Itac",this.itac);
+                      //console.log("Itac",this.itac);
 
-                      this.dirFolder = "Empresas/"+this.empresa //GECONTA
-                      +"/Gestores/"+this.itac.gestor+"/fotos_ITACs/" 
-                      + this.itac.codigo_itac + "/";
+                      if(this.itac){
+                        this.dirFolder = "Empresas/"+this.empresa //GECONTA
+                        +"/Gestores/"+this.itac.gestor+"/fotos_ITACs/" 
+                        + this.itac.codigo_itac + "/";
 
-                      this.urlFolder = _requestService.siteUrl + this.dirFolder
-                      console.log("Folder",this.urlFolder);
-                      this.checkValidCoords();
+                        this.urlFolder = _requestService.siteUrl + this.dirFolder
+                        //console.log("Folder",this.urlFolder);
+                        this.checkValidCoords();
+                      }else{
+                        router.navigate(['/itacs']);
+                      }
                     });
                     
                   }

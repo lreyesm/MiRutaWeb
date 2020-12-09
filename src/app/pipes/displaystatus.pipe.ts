@@ -1,4 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
+import { TareaFieldOptions } from '../classes/tarea-field-options';
 
 @Pipe({
   name: 'displaystatus'
@@ -6,20 +7,10 @@ import { Pipe, PipeTransform } from '@angular/core';
 export class DisplaystatusPipe implements PipeTransform {
 
   transform(value: string): string {
-
     if(value){
+      value = value.trim();
       let status = "Abierta";
-
-      let statuses = {  
-        "IDLE": "",
-        "IDLE CITA": "Abierta (Cita)",
-        "IDLE BAT": "Abierta (En Batería)",
-        "DONE": "Ejecutada",
-        "CLOSED": "Cerrada",
-        "INFORMADA": "Informada",
-        "REQUERIDA": "Requerida" 
-      };
-
+      let statuses = new TareaFieldOptions().statuses;
       for (let st in statuses) {
         if (statuses.hasOwnProperty(st)) {
           if(st.toLowerCase().includes(value.toLowerCase())){
@@ -27,10 +18,9 @@ export class DisplaystatusPipe implements PipeTransform {
           }
         }
       }   
-
-      return status[0];
+      return status[0];  
     }else{
-      console.log("Pipe invalido")
+      //console.log("Pipe invalido--------------------------------------------------");
     }
   }
 

@@ -3,14 +3,35 @@
     <div class="col"> 
       <h2 class="margin-top-20">Tabla de Tareas</h2>
     </div>
-    <div class="col"> 
-      <button class="btn btn-primary float-right margin-top-20"
-      (click)="openItacs()"
-      >Tabla de ITACs</button>
+
+    <div class="row margin-top-20">
+      <div class="col-md-9">
+        <div class="input-group sb-3">
+          <div class="dropdown">
+            <button class="btn btn-secondary dropdown-toggle" type="button" 
+            id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              {{ optionSelected }}
+            </button>
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+              <a *ngFor="let option of searchOptions; let i=index" class="dropdown-item text-center"
+              (click)="selectedOption(option)">{{ option }}</a>
+            </div>
+          </div> 
+          <input type="text" class="form-control" aria-label="Valor a buscar" style="max-width: 300px;" 
+          (keyup.enter)="search('Buscando', valueToSearch.value)" #valueToSearch>
+          <button class="btn btn-primary"
+          (click)="search(optionSelected, valueToSearch.value)">Buscar</button>
+        </div> 
+      </div>
+      <div class="col-md-3">
+        <button class="btn btn-primary float-right"
+        (click)="openItacs()"
+        >Tabla de ITACs</button>  
+      </div>  
     </div>
   </div>
 
-  <nav class="margin-top-20 width-screen" aria-label="..." *ngIf="numberPaginations > 1 && !loading">
+  <nav class="margin-top-20" aria-label="..." *ngIf="numberPaginations > 1 && !loading">
     <ul class="pagination">
       <!-- 
       <li class="page-item active" aria-current="page">
@@ -33,57 +54,58 @@
   <hr>  
 
   <div class="row fadeIn">
-      <div class="col-md-12"></div>
-      <div class="table-responsive">
-          <table class="table">
-              <thead class="thead-dark">
-                <tr>
-                  <th scope="col">#</th>
-                  <th scope="col">Población</th>
-                  <th scope="col">Calle</th>
-                  <th scope="col">Portal</th>
-                  <th scope="col">Abonado</th>  
-                  <th scope="col">Serie Levantado</th>
-                  <th scope="col">Lectura Levantado</th>   
-                  <th scope="col">Serie Instalado</th>   
-                  <th scope="col">Lectura Instalado</th>                           
-                  <th scope="col">Estado</th>
-                  <th scope="col">Acción</th>  
-                </tr>
-              </thead>
-              <tbody>
-                <tr *ngFor="let tarea of tareas; let i=index">
-                  <th scope="row">{{ i+1 }}</th>
-                  <td>{{ tarea.MUNICIPIO }}</td>
-                  <td>{{ tarea.CALLE }}</td>
-                  <td>{{ tarea.NUME }}</td>                
-                  <td>{{ tarea.Numero_de_ABONADO }}</td>    
-                  <td>{{ tarea.SERIE }}</td>    
-                  <td>{{ tarea.LECT_LEV }}</td>  
-                  <td>{{ tarea.seriedv }}</td>   
-                  <td>{{ tarea.LECTURA_CONTADOR_NUEVO }}</td>            
-                  <td>{{ tarea.status_tarea | displaystatus }}</td>
-                  <td>
-                    <div class="row">
-                      <button [routerLink]="['/tarea', tarea.id]" class="btn btn-primary">Abrir</button>
-                    </div>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
+      <div class="col-md-12">
+        <div class="table-responsive">
+            <table class="table">
+                <thead class="thead-dark">
+                  <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Población</th>
+                    <th scope="col">Calle</th>
+                    <th scope="col">Portal</th>
+                    <th scope="col">Abonado</th>  
+                    <th scope="col">Serie Levantado</th>
+                    <th scope="col">Lectura Levantado</th>   
+                    <th scope="col">Serie Instalado</th>   
+                    <th scope="col">Lectura Instalado</th>                           
+                    <th scope="col">Estado</th>
+                    <th scope="col">Acción</th>  
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let tarea of tareas; let i=index">
+                    <th scope="row">{{ i+1 }}</th>
+                    <td>{{ tarea.MUNICIPIO }}</td>
+                    <td>{{ tarea.CALLE }}</td>
+                    <td>{{ tarea.NUME }}</td>                
+                    <td>{{ tarea.Numero_de_ABONADO }}</td>    
+                    <td>{{ tarea.SERIE }}</td>    
+                    <td>{{ tarea.LECT_LEV }}</td>  
+                    <td>{{ tarea.seriedv }}</td>   
+                    <td>{{ tarea.LECTURA_CONTADOR_NUEVO }}</td>            
+                    <td>{{ tarea.status_tarea | displaystatus }}</td>
+                    <td>
+                      <div class="row">
+                        <button [routerLink]="['/tarea', tarea.id]" class="btn btn-primary">Abrir</button>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
 
-            <div *ngIf="tareas.length == 0 && !loading"
-            class="alert alert-info" role="alert">
-              <strong>No hay</strong> tareas que mostrar
-            </div>
-
-            <div *ngIf="loading"
-            class="alert alert-warning" role="alert">              
-              <div class="spinner-border float-center" style="width: 1rem; height: 1rem;" role="status">
-                <span class="sr-only">Loading...</span>
+              <div *ngIf="tareas.length == 0 && !loading"
+              class="alert alert-info" role="alert">
+                <strong>No hay</strong> tareas que mostrar
               </div>
-              <strong>  Cargando tareas... </strong> por favor espere
-            </div>
+
+              <div *ngIf="loading"
+              class="alert alert-warning" role="alert">              
+                <div class="spinner-border float-center" style="width: 1rem; height: 1rem;" role="status">
+                  <span class="sr-only">Loading...</span>
+                </div>
+                <strong>  Cargando tareas... </strong> por favor espere
+              </div>
+         </div>
       </div>
   </div>
 

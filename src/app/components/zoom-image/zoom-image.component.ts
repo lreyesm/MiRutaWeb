@@ -12,9 +12,9 @@ export class ZoomImageComponent implements OnInit {
 
   constructor(private activeRoute: ActivatedRoute) { 
     this.activeRoute.params.subscribe((params:any)=>{
-                  console.log("params",params);
+                  //console.log("params",params);
                   this.url = params['id'];
-                  console.log("id",this.url);
+                  //console.log("id",this.url);
                   
                   
                 })

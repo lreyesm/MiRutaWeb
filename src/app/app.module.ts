@@ -11,6 +11,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { AgmCoreModule } from '@agm/core'; //Mapas Mapbox
 import { AuthModule, AuthService } from '@auth0/auth0-angular'; //Autenticación
 import { AngularFireModule } from '@angular/fire'; //Autenticación
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 ////Components/////////////////////////////////////////////////////////////////////
 import { AppComponent } from './app.component';
@@ -39,6 +40,8 @@ import { LogDirective } from './directives/log.directive';
 import { NavBarComponent } from './components/nav-bar/nav-bar.component';
 import { KeysPipe } from './pipes/keys.pipe';
 import { AuthGuardService } from './services/auth-guard.service';
+import { TareasSearchComponent } from './components/tareas-search/tareas-search.component';
+import { ItacsSearchComponent } from './components/itacs-search/itacs-search.component';
 
 
 
@@ -71,10 +74,13 @@ import { AuthGuardService } from './services/auth-guard.service';
     MapaMapBoxItacMiniComponent,
     LogDirective,
     NavBarComponent,
-    KeysPipe
+    KeysPipe,
+    TareasSearchComponent,
+    ItacsSearchComponent
   ],
   imports: [
     BrowserModule,
+    FormsModule,
     AuthModule.forRoot({
       domain: 'lreyesm.us.auth0.com',
       clientId: 'PZq1NMMOV1TLKI2oC2rH6AqcIkaAYDmP'

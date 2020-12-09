@@ -4,29 +4,67 @@
   <div class="border rounded form-container" style="text-align:center">
       <div class="image-holder" style="background-image: url(&quot;assets/img/valvulas_de_calidad.jpg&quot;);"></div>
 
-      <div class="myform">
+
+      <form class="myform"
+      #forma="ngForm" novalidate="">
+
+        <div *ngIf="showNotSelectedEmpresa"
+          class="alert alert-warning" role="alert">
+          <strong>Seleccione la empresa</strong>
+        </div>
+        <div *ngIf="showWrongEmailPassword"
+          class="alert alert-danger" role="alert">
+          <strong>Usuario o contraseña incorrecta</strong>
+        </div>
+        <div *ngIf="showError"
+          class="alert alert-danger" role="alert">
+          <strong>{{ errorMessage }}</strong>
+        </div>
         <!-- <div *ngIf="(empresas.length == 0) && !searching_empresas"
           class="alert alert-info" role="alert">
           Página en <strong>Mantenimiento</strong>
         </div> -->
         <div>
           <div class="dropdown align-self-center text-center justify-content-center">
-            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              {{ selectedNameEmpresa }}
+            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" 
+              data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
+              name="empresa">
+                {{ selectedNameEmpresa }}
             </button>
-            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" #Mydropdown>
               <a *ngFor="let empresa of empresas; let i=index" class="dropdown-item text-center"
               (click)="selectEmpresa(empresa.empresa, empresa.nombre_empresa)">{{ empresa.nombre_empresa }}</a>
             </div>
-          </div>       
-          <div><input class="form-control margin-top-20" type="email" name="email" placeholder="Email" #emailSignIn required></div>
-          <div><input class="form-control margin-top-20" type="password" name="password" placeholder="Password" #passwordSignIn required></div>
-          <div><button class="btn btn-primary btn-block" style="background-color: rgb(54,141,206);"
-            (click)="login(emailSignIn.value.trim(), passwordSignIn.value)"
-            >Entrar</button>
+          </div>   
+
+          
+          <div class="form-group col">
+            <input class="form-control margin-top-20" type="email" 
+              name="email" 
+              ngModel minlength="3"
+              placeholder="Email" #emailSignIn 
+              pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$"
+              required
+              >
+          </div>
+          <div class="form-group col">
+            <input class="form-control margin-top-20" type="password" name="password"
+              ngModel
+              placeholder="Contraseña" #passwordSignIn required>
+          </div>
+
+
+          <div class="form-group col">
+            <button class="btn btn-primary btn-block disabled" [ngClass]="{ 'disabled': loading_signin }" style="background-color: rgb(54,141,206);"
+              (click)="login(emailSignIn.value.trim(), passwordSignIn.value)">
+              <div *ngIf="loading_signin" class="spinner-border float-center" 
+                style="width: 1rem; height: 1rem;" role="status">
+              </div>
+              Entrar
+            </button>
           </div>
         </div>
-      </div>
+      </form>
   </div>
 </div>
 

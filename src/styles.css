@@ -16,6 +16,23 @@ agm-map {
     background-color: #368DCE;
     color: #FFFFFF;
 }
+
+body { 
+  text-align: center; 
+} 
+
+.btn.btn-primary{
+  background: #368dce;
+  color: #FFFFFF;
+}
+.btn.btn-primary:hover,
+.btn.btn-primary:focus {
+    background: #0053ba;
+}
+
+.btn.btn-primary:active {
+    transform: scale(0.90);
+}
 .margin-left-40{
     margin-left: 40px;
 }

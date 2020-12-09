@@ -25,13 +25,13 @@ export class MapaMapBoxItacMiniComponent implements OnInit {
               private _globalFunctionsService: GlobalfunctionsService,
               private activeRoute: ActivatedRoute) { 
                 
-                this.empresa = localStorage.getItem('empresa');      
-                console.log("constructor TareasComponent", this.empresa);
+                this.empresa = sessionStorage.getItem('empresa');      
+                //console.log("constructor TareasComponent", this.empresa);
 
                 this.activeRoute.params.subscribe((params:any)=>{
-                  console.log("params",params);
+                  //console.log("params",params);
                   this.id = params['id'];
-                  console.log("id",this.id);
+                  //console.log("id",this.id);
                   
                   this._requestService.getItac(this.empresa, this.id).subscribe((itac:any)=>{
                       let jsonArray = JSON.parse(itac);
@@ -40,8 +40,8 @@ export class MapaMapBoxItacMiniComponent implements OnInit {
                       let lat = _globalFunctionsService.getLatitudItac(this.itac);
                       let lng = _globalFunctionsService.getLongitudItac(this.itac);
     
-                      console.log("lat", lat);
-                      console.log("lng", lng);
+                      //console.log("lat", lat);
+                      //console.log("lng", lng);
     
                       if(_globalFunctionsService.checkIfFieldIsValid(lat) 
                         && _globalFunctionsService.checkIfFieldIsValid(lng)){
@@ -61,8 +61,8 @@ export class MapaMapBoxItacMiniComponent implements OnInit {
 
   onGetItac(){
     if(this.lat && this.lng){
-      console.log("this.lat", this.lat);
-      console.log("this.lng", this.lng);
+      //console.log("this.lat", this.lat);
+      //console.log("this.lng", this.lng);
       let text: string = "";
       
       if(this._globalFunctionsService.checkIfFieldIsValid(this.itac.itac)){
@@ -106,7 +106,7 @@ export class MapaMapBoxItacMiniComponent implements OnInit {
       .setLngLat([lng, lat])
       .addTo(this.mapa);      
       // marker.on('dragend', ()=>{ //Funcion para obtener el desplazamiento del marcador
-      //   console.log(marker.getLngLat());
+      //   //console.log(marker.getLngLat());
       // });
   }
 }

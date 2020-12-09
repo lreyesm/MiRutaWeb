@@ -3,10 +3,30 @@
       <div class="col"> 
         <h2 class="margin-top-20">Tabla de ITACs</h2>
       </div>
-      <div class="col"> 
-        <button class="btn btn-primary float-right margin-top-20"
-        (click)="openTareas()"
-        >Tabla de Tareas</button>
+
+      <div class="row margin-top-20">
+        <div class="col-md-9">
+          <div class="input-group sb-3">
+            <div class="dropdown">
+              <button class="btn btn-secondary dropdown-toggle" type="button" 
+              id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                {{ optionSelected }}
+              </button>
+              <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                <a *ngFor="let option of searchOptions; let i=index" class="dropdown-item text-center"
+                (click)="selectedOption(option)">{{ option }}</a>
+              </div>
+            </div> 
+            <input type="text" class="form-control" aria-label="Valor a buscar" style="max-width: 300px;" 
+            (keyup.enter)="search('Buscando', valueToSearch.value)" #valueToSearch>
+            <button class="btn btn-primary"
+            (click)="search(optionSelected, valueToSearch.value)">Buscar</button>
+          </div> 
+        </div>
+        <div class="col-md-3">
+          <button class="btn btn-primary"
+          (click)="openTareas()">Tabla de Tareas</button>
+        </div>  
       </div>
     </div>
   

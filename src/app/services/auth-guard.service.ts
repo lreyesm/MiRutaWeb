@@ -11,12 +11,12 @@ export class AuthGuardService {
   }
 
   canActivate(next: ActivatedRouteSnapshot, state: RouterStateSnapshot){
-    console.log(next);
+    //console.log(next);
     if(this.auth.isLoggedIn){
-      console.log("Paso el guard");
+      //console.log("Paso el guard");
       return true;
     }else{
-      console.log("Bloqueado por el guard");
+      //console.log("Bloqueado por el guard");
       return false;
     }
   }

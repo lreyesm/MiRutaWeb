@@ -190,7 +190,7 @@
 <div class="width-screen margin-top-20">
     <div class="row row-cols-1">
       <div class="col">
-        <div *ngIf="itac.foto_9.includes('jpg')" class="card" style="width: 16rem;">
+        <div *ngIf="itac.foto_9" class="card" style="width: 16rem;">
             <img [src]="urlFolder + itac.foto_9" class="card-img-top" alt="Foto 9"
             onError="this.src='assets/img/noimage.png'">
             <div class="card-body">
