@@ -88,8 +88,9 @@ export class AppComponent implements OnDestroy{
       this.loading_signin = true;
       this.showError = false;
       if(this.selectedEmpresa){
-        this._requestService.loginCliente(this.selectedEmpresa, email, password).subscribe(res=>{
-          if(res){
+        this._requestService.loginCliente(this.selectedEmpresa, email, password).subscribe(cliente=>{
+          if(cliente){
+            sessionStorage.setItem('cliente', JSON.stringify(cliente));
             //console.log("login", "Iniciando en Firebase");
             this.onSignIn(email, password);
             this.showWrongEmailPassword = false;

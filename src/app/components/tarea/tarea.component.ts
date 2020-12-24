@@ -1,6 +1,7 @@
 import { ItacFieldOptions } from 'src/app/classes/itac-field-options';
 import { TareaFieldOptions } from './../../classes/tarea-field-options';
 import { Component, OnInit } from '@angular/core';
+import { Location } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Itac } from 'src/app/interfaces/itac';
 import { Tarea } from 'src/app/interfaces/tarea';
@@ -26,7 +27,8 @@ export class TareaComponent implements OnInit {
   constructor(public _requestService: RequestService,
               private _globalfunctionsService: GlobalfunctionsService,
               private activatedRoute: ActivatedRoute,
-              private router: Router) {
+              private router: Router,
+              private location: Location) {
 
                 this.empresa = sessionStorage.getItem('empresa');
                 //console.log("constructor TareasComponent", this.empresa);
@@ -44,7 +46,6 @@ export class TareaComponent implements OnInit {
                           this.dirFolder = "Empresas/"+ this.empresa //GECONTA
                           +"/Gestores/"+this.tarea.GESTOR+"/fotos_tareas/"
                           + this.tarea.Numero_de_ABONADO + "/" + this.tarea.ANOMALIA + "/";
-
                           this.urlFolder = this._requestService.siteUrl + this.dirFolder;
                           //console.log("Folder",this.urlFolder);
                           // this._requestService.checkIfFileExists(this.urlFolder, this.urlFolder, this.tarea.foto_antes_instalacion).subscribe(res=>{
@@ -91,6 +92,10 @@ export class TareaComponent implements OnInit {
 
   play(url:string)
   {
-    //console.log("play audio",url);
+   //  console.log("play audio",url);
+  }
+
+  back(): void {
+    this.location.back();
   }
 }

@@ -6,6 +6,7 @@ import { stringify } from 'querystring';
 import { Itac } from '../interfaces/itac';
 import { Cliente } from '../interfaces/cliente';
 import { Observable, of, throwError } from 'rxjs';
+import { GlobalfunctionsService } from './globalfunctions.service';
 
 @Injectable({
   providedIn: 'root'
@@ -25,7 +26,8 @@ export class RequestService {
   public siteUrl = 'https://mywateroute.com/Mi_Ruta/';
   //siteUrl = 'http://localhost/';
 
-  constructor(private http: HttpClient) { 
+  constructor(private http: HttpClient,
+              private _globalFunctions: GlobalfunctionsService) { 
       //console.log("constructor RequestService");
   }
 
@@ -74,7 +76,7 @@ export class RequestService {
     }
     //console.log('handleError', errorMessage);
     return throwError(errorMessage);
-}
+  }
 
   loginCliente(empresa: string, user_name: string, password: string){
     let script = 'login_cliente.php'
@@ -226,6 +228,31 @@ export class RequestService {
       return this.searchResult;
     }));
   }
+  getTareasCustomQuery(empresa: string, query: string, limite: number = 500, id_start: number = 0){
+    let script = 'get_tareas_with_limit_custom_query.php'
+    const url = this.siteUrl + script
+    //console.log(url);
+
+    const data = new FormData()     
+    data.append('query', query);  
+    data.append('LIMIT', limite.toString());
+    data.append('id_start', id_start.toString()); 
+    data.append('empresa', empresa);   
+
+    //console.log("getTareasWhere", empresa, field, value);
+
+    const options  = {
+      headers: new HttpHeaders({
+        'Accept': '*/*'
+      })
+      , responseType: 'text' as 'text'
+    };
+
+    return this.http.post(url, data, options).pipe(map((res:any)=>{
+      this.tareas = res;  
+      return this.tareas;
+    }));
+  }
 
   getTareas(empresa: string, limite: number = 500, offset: number = 0){
     let script = 'get_tareas_with_limit.php'
@@ -274,6 +301,35 @@ export class RequestService {
       }
       this.countTareas = count;
       return count;
+    }));
+  }
+  getTareasAmountCustomQuery(empresa: string, query: string){
+    let script = 'get_tareas_amount_custom_query.php'
+    const url = this.siteUrl + script
+
+    const data = new FormData()
+    data.append('empresa', empresa);
+    data.append('query', query);   
+
+    const options  = {
+      headers: new HttpHeaders({
+        'Accept': '*/*'
+      })
+      , responseType: 'text' as 'text'
+    };
+
+    return this.http.post(url, data, options).pipe(map((res:any)=>{
+     //  console.log("getTareasAmountCustomQuery", res);
+      if(this._globalFunctions.isJson(res)){
+        let jsonInfo = JSON.parse(res);
+        this.countTareas = jsonInfo.count_tareas;
+        ////  console.log(jsonInfo);
+        ////  console.log('this.countTareas', this.countTareas);
+        sessionStorage.setItem('jsonInfoCountTareas', JSON.stringify(jsonInfo));
+        return this.countTareas;
+      }else{
+        return this.countTareas;
+      }
     }));
   }
 

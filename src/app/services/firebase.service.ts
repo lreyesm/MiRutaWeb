@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
+// import * as admin from 'firebase-admin'; //administrador de firebase para borrar y crear cuentas
 
 @Injectable({
   providedIn: 'root'
@@ -8,7 +9,13 @@ export class FirebaseService {
 
   isLoggedIn: boolean = false;
 
-  constructor(public firebaseAuth: AngularFireAuth) { }
+
+  constructor(public firebaseAuth: AngularFireAuth
+              /*  ,private myadmin: admin.AppOptions */) { 
+
+              
+              }
+
 
   async signIn(email: string, password:string){
     //console.log("signIn", email, password);

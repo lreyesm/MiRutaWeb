@@ -10,5 +10,6 @@ export interface Cliente {
     last_login : string,
     count_logins : string,
     geolocalizacion : string,
+    permisos : string,
     date_time_modified: string
 }

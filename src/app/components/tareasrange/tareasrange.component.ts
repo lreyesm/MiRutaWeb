@@ -1,9 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { off } from 'process';
 import { Observable } from 'rxjs';
 import { TareaFieldOptions } from 'src/app/classes/tarea-field-options';
+import { Cliente } from 'src/app/interfaces/cliente';
 import { Tarea } from 'src/app/interfaces/tarea';
+import { GlobalfunctionsService } from 'src/app/services/globalfunctions.service';
 import { RequestService } from 'src/app/services/request.service';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-tareasrange',
@@ -24,10 +28,16 @@ export class TareasrangeComponent implements OnInit {
   loading: boolean = true;
   lastPage: boolean = false;
   empresa: string = "";
-  
+  cliente: Cliente;
+  restricciones: JSON;
+  query: string = "NUMIN <> 'NULL'";
+  jsonInfo: JSON = null;
+
   constructor(private _requestService: RequestService,
               private router: Router,
-              private activeRoute: ActivatedRoute) { 
+              private activeRoute: ActivatedRoute,
+              private _globalFunctions: GlobalfunctionsService,
+              private location: Location) { 
     this.loading = true;
 
     let options = new TareaFieldOptions().searchOptionsValues;
@@ -36,34 +46,62 @@ export class TareasrangeComponent implements OnInit {
       this.searchOptions.push(option);
     } 
 
-    this.empresa = sessionStorage.getItem('empresa');      
+    this.empresa = sessionStorage.getItem('empresa');   
+    this.cliente = JSON.parse(sessionStorage.getItem('cliente'));    
+
+    if(_globalFunctions.checkIfFieldIsValid(this.cliente.permisos)){
+      if(_globalFunctions.isJson(this.cliente.permisos)){
+        this.restricciones = JSON.parse(this.cliente.permisos);
+        this.query = this._globalFunctions.getQueryWithRestricions(this.restricciones);
+      }
+    }     
     //console.log("constructor TareasrangeComponent", this.empresa);
     
     this.activeRoute.params.subscribe(params=>{
       //console.log("id", params['id']);
-      this.currentDisplayed = params['id']; //-1 porque en las consultas el OFFSET empieza en 0
+      if(params){
+        this.currentDisplayed = params['id']; //-1 porque en las consultas el OFFSET empieza en 0
+      }
       //console.log("this.currentDisplayed", this.currentDisplayed);
 
-      this._requestService.getTareasAmount(this.empresa).subscribe(data=>{
+      this._requestService.getTareasAmountCustomQuery(this.empresa, this.query).subscribe(data=>{
         this.countTareas = data;
-        //console.log("this.countTareas ", this.countTareas);
-  
+        this.jsonInfo = JSON.parse(sessionStorage.getItem('jsonInfoCountTareas')); 
+       //  console.log("this.countTareas ", this.countTareas);  
+
+        let offset = (this.currentDisplayed-1) * this.numberDisplayed;
+
+        if(offset === 0){
+          offset = 1;
+        }
+       //  console.log("offset", offset, "-----------------------------------------------------------------");
+       //  console.log("this.jsonInfo["+"id_"+ offset.toString()+"]", this.jsonInfo["id_"+ offset.toString()], "-----------------------------------------------------------------");
+        let id_start = Number(this.jsonInfo["id_"+ offset.toString()]);
+        
+        this._requestService.getTareasCustomQuery(this.empresa, this.query,
+          this.numberDisplayed, id_start).subscribe((data:any)=>{
+            if(this._globalFunctions.isJson(data)){
+              let jsonArray = JSON.parse(data);
+              for(let i in jsonArray){
+                // //console.log("data[i]", jsonArray[i]);
+                this.tareas[i]= jsonArray[i];
+              }  
+              this.numberPaginations = Math.ceil(this.countTareas / this.numberDisplayed);
+             //  console.log("numberPaginations", this.numberPaginations, "-----------------------------------------------------------------");
+             //  console.log("countTareas", this.countTareas, "-----------------------------------------------------------------");
+              if(Number(this.currentDisplayed)>= this.numberPaginations){
+                this.lastPage = true;
+              }else{
+                this.lastPage = false;
+              }
+              this.loading = false;
+            }else{
+              this.loading = false;
+            }
+        });
       });
-      this._requestService.getTareas(this.empresa,this.numberDisplayed,
-         (this.currentDisplayed-1) * this.numberDisplayed).subscribe((data:any)=>{
-          let jsonArray = JSON.parse(data);
-          for(let i in jsonArray){
-            // //console.log("data[i]", jsonArray[i]);
-            this.tareas[i]= jsonArray[i];
-          }  
-          this.numberPaginations = Math.ceil(this.countTareas / this.numberDisplayed);
-          if(Number(this.currentDisplayed)>= this.numberPaginations){
-            this.lastPage = true;
-          }else{
-            this.lastPage = false;
-          }
-          this.loading = false;
-      });
+      
+      
     });    
 
   }
@@ -146,6 +184,10 @@ export class TareasrangeComponent implements OnInit {
         this.router.navigate(['/tareas-search', JSON.stringify(parameters)]);  
       }
     }
+  }
+
+  back(): void {
+    this.location.back();
   }
 
 }

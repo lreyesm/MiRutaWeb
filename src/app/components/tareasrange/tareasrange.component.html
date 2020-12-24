@@ -5,7 +5,7 @@
           <h2 class="margin-top-20">Tabla de Tareas</h2>
         </div>
         <div class="row margin-top-20">
-          <div class="col-md-9">
+          <div class="col-md-9" style="margin-top: 5px;">
             <div class="input-group sb-3">
               <div class="dropdown">
                 <button class="btn btn-secondary dropdown-toggle" type="button" 
@@ -23,11 +23,15 @@
               (click)="search(optionSelected, valueToSearch.value)">Buscar</button>
             </div> 
           </div>
-          <div class="col-md-3">
+          <!-- <div class="col-md-3">
             <button class="btn btn-primary float-right"
             (click)="openItacs()"
             >Tabla de ITACs</button>  
-          </div>  
+          </div>  -->     
+          <div class="col-md-3 text-right align-self-center">
+            <button class="btn btn-danger"
+            type="button" (click)="back()">Atrás</button>
+          </div>         
         </div>
       </div>
   

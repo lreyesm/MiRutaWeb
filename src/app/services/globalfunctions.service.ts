@@ -10,6 +10,39 @@ export class GlobalfunctionsService {
 
   constructor() { }
 
+  getQueryWithRestricions(restrictions: JSON){
+    let whereClause: string = "";
+    for(let key in restrictions){
+      let values: string = restrictions[key];
+     //  console.log('key', key, " --------------------------------");
+     //  console.log('value', values, " --------------------------------");
+      if(values.includes(";")){
+        let multipleClause = "";
+        let split = values.split(";");
+        for(let value of split){
+          value = value.trim();
+          if(multipleClause == ""){
+            multipleClause += " (" + key + " LIKE '" + value + "') ";
+          }else{
+            multipleClause += " OR (" + key + " LIKE '" + value + "') ";
+          }
+        }
+        if(whereClause == ""){
+          whereClause += " (" + multipleClause + ") ";
+        }else{
+          whereClause += " OR (" + multipleClause + ") ";
+        }
+      }else{
+        if(whereClause == ""){
+          whereClause += " (" + key + " LIKE '" + values + "') ";
+        }else{
+          whereClause += " OR (" + key + " LIKE '" + values + "') ";
+        }
+      }
+    }
+   //  console.log('whereClause', whereClause, " --------------------------------");
+    return whereClause;
+  }
   doesFileExist(urlToFile) {
     var xhr = new XMLHttpRequest();
     xhr.open('HEAD', urlToFile, false);

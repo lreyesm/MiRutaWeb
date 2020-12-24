@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Location } from '@angular/common';
 import { Itac } from 'src/app/interfaces/itac';
 import { GlobalfunctionsService } from 'src/app/services/globalfunctions.service';
 import { RequestService } from 'src/app/services/request.service';
@@ -21,7 +22,8 @@ export class ItacComponent implements OnInit {
   constructor(private _requestService: RequestService,
               private _globalfunctionsService: GlobalfunctionsService,
               private activatedRoute: ActivatedRoute,
-              private router: Router) { 
+              private router: Router,
+              private location: Location) { 
 
                 this.empresa = sessionStorage.getItem('empresa');
       
@@ -63,5 +65,8 @@ export class ItacComponent implements OnInit {
     }else{
       this.valid_coords = false;
     }
+  }
+  back(): void {
+    this.location.back();
   }
 }

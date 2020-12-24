@@ -2,7 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { TareaFieldOptions } from 'src/app/classes/tarea-field-options';
+import { Cliente } from 'src/app/interfaces/cliente';
 import { Tarea } from 'src/app/interfaces/tarea';
+import { GlobalfunctionsService } from 'src/app/services/globalfunctions.service';
 import { RequestService } from 'src/app/services/request.service';
 
 @Component({
@@ -21,36 +23,49 @@ export class TareasComponent implements OnInit {
   loading: boolean = false;
   currentPage: number = 1;
   empresa: string = "";
+  cliente: Cliente;
+  restricciones: JSON;
+  query: string = "NUMIN <> 'NULL'";
   
   constructor(private _requestService: RequestService,
-              private router: Router) { 
+              private router: Router,
+              private _globalFunctions: GlobalfunctionsService) { 
     this.loading = true;
 
+    this.router.navigate(['/tareasrange', '1']);
+    // let options = new TareaFieldOptions().searchOptionsValues;
+
+    // for (let option in options) {
+    //   this.searchOptions.push(option);
+    // } 
+
+    // this.empresa = sessionStorage.getItem('empresa');   
+    // this.cliente = JSON.parse(sessionStorage.getItem('cliente')) 
+    // if(_globalFunctions.checkIfFieldIsValid(this.cliente.permisos)){
+    //   if(_globalFunctions.isJson(this.cliente.permisos)){
+    //     this.restricciones = JSON.parse(this.cliente.permisos);
+    //     this.query = this._globalFunctions.getQueryWithRestricions(this.restricciones);
+    //   }
+    // }
     
-    let options = new TareaFieldOptions().searchOptionsValues;
-
-    for (let option in options) {
-      this.searchOptions.push(option);
-    } 
-
-    this.empresa = sessionStorage.getItem('empresa');      
-    //console.log("constructor TareasComponent", this.empresa);
+    ////  console.log("query ", this.query, "-------------------------------"); 
+    // //console.log("constructor TareasComponent", this.empresa);
     
-    this._requestService.getTareasAmount(this.empresa).subscribe(data=>{
-      this.countTareas = data;
-      //console.log("this.countTareas ", this.countTareas);
+    // this._requestService.getTareasAmountCustomQuery(this.empresa, this.query).subscribe(data=>{
+    //   this.countTareas = data;
+    //   //console.log("this.countTareas ", this.countTareas);
 
-    });
+    // });
 
-    this._requestService.getTareas(this.empresa, this.numberDisplayed, 0).subscribe((data: any)=>{
-        let jsonArray = JSON.parse(data);
-        for(let i in jsonArray){
-          // //console.log("data[i]", jsonArray[i]);
-          this.tareas[i]= jsonArray[i];
-        }        
-        this.numberPaginations = Math.ceil(this.countTareas / this.numberDisplayed);
-        this.loading = false;
-      });
+    // this._requestService.getTareasCustomQuery(this.empresa, this.query, this.numberDisplayed, 0).subscribe((data: any)=>{
+    //   let jsonArray = JSON.parse(data);
+    //   for(let i in jsonArray){
+    //    //  console.log("data[i]", jsonArray[i]);
+    //     this.tareas[i] = jsonArray[i];
+    //   }        
+    //   this.numberPaginations = Math.ceil(this.countTareas / this.numberDisplayed);
+    //   this.loading = false;
+    // });
 
   }
 
