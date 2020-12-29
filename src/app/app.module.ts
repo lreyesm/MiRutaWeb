@@ -42,6 +42,7 @@ import { KeysPipe } from './pipes/keys.pipe';
 import { AuthGuardService } from './services/auth-guard.service';
 import { TareasSearchComponent } from './components/tareas-search/tareas-search.component';
 import { ItacsSearchComponent } from './components/itacs-search/itacs-search.component';
+import { NavBarContactComponent } from './components/nav-bar-contact/nav-bar-contact.component';
 
 
 
@@ -76,7 +77,8 @@ import { ItacsSearchComponent } from './components/itacs-search/itacs-search.com
     NavBarComponent,
     KeysPipe,
     TareasSearchComponent,
-    ItacsSearchComponent
+    ItacsSearchComponent,
+    NavBarContactComponent
   ],
   imports: [
     BrowserModule,

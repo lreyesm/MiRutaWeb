@@ -5,6 +5,11 @@
       Mi Ruta
     </a>
     <div class="form-inline">
-        <button class="btn btn-outline-light" type="button" (click)="logOut()">Salir</button>
+        <img *ngIf="cliente.foto && (cliente.foto!='null')" [src]="urlFolder + cliente.foto" width="38" height="38" 
+        class="rounded-circle d-inline-block align-self-center" alt="" loading="lazy"
+        onError="this.src='assets/img/noimage.png'"
+        style="margin-right: 10px;">
+        <button class="btn btn-outline-light" type="button"
+         (click)="logOut()">Salir</button>
     </div>
   </nav>

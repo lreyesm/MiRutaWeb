@@ -1,13 +1,14 @@
 
 <app-nav-bar *ngIf="isLogged" (isLogOut)="handleLogOut()" class="animated fadeIn"></app-nav-bar>
-<div *ngIf="!isLogged" class="register-photo animated fadeIn" style="background-color: rgb(46, 69, 90); width: 100%; height: 100%;">
+<app-nav-bar-contact *ngIf="!isLogged" class="animated fadeIn"></app-nav-bar-contact>
+
+<div *ngIf="!isLogged" class="register-photo animated fadeIn" 
+style="background-color: rgb(27, 70, 103); width: 100%; height: 100%;">
+
   <div class="border rounded form-container" style="text-align:center">
       <div class="image-holder" style="background-image: url(&quot;assets/img/valvulas_de_calidad.jpg&quot;);"></div>
-
-
       <form class="myform"
       #forma="ngForm" novalidate="">
-
         <div *ngIf="showNotSelectedEmpresa"
           class="alert alert-warning" role="alert">
           <strong>Seleccione la empresa</strong>
@@ -36,7 +37,6 @@
               (click)="selectEmpresa(empresa.empresa, empresa.nombre_empresa)">{{ empresa.nombre_empresa }}</a>
             </div>
           </div>   
-
           
           <div class="form-group col">
             <input class="form-control margin-top-20" type="email" 

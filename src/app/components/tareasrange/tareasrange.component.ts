@@ -32,6 +32,9 @@ export class TareasrangeComponent implements OnInit {
   restricciones: JSON;
   query: string = "NUMIN <> 'NULL'";
   jsonInfo: JSON = null;
+  filtrar: boolean = false;
+  filter_not_selected: boolean = false;
+  filter_value_empty: boolean = false;
 
   constructor(private _requestService: RequestService,
               private router: Router,
@@ -158,15 +161,25 @@ export class TareasrangeComponent implements OnInit {
   }
 
   selectedOption(option: string){
-    this.optionSelected = option;
+    this.optionSelected = option;    
+    this.filter_not_selected = false;
   }
 
+  checkIfEmpty(value: string){
+    // console.log("checkIfEmpty");
+    if(value.length > 0){
+      this.filter_value_empty = false; 
+      // console.log("no vacio");     
+    }
+  }
   search(field: string, value: string){
     if(value){
+      this.filter_value_empty = false;
       value = value.trim();
       let tareaOptions = new TareaFieldOptions();
       let searchOptions = tareaOptions.searchOptionsValues;
       if (searchOptions.hasOwnProperty(field)) {
+        this.filter_not_selected = false;
         field = searchOptions[field];
         if(field == tareaOptions.status_tarea){
           let statuses = tareaOptions.statuses;
@@ -182,7 +195,13 @@ export class TareasrangeComponent implements OnInit {
         //console.log("Searching", field, value);
         let parameters = {field: field, value: value};
         this.router.navigate(['/tareas-search', JSON.stringify(parameters)]);  
+      }else{
+        // console.log("Filter not Selected");
+        this.filter_not_selected = true;
       }
+    }else{
+      // console.log("Field empty");
+      this.filter_value_empty = true;
     }
   }
 

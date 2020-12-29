@@ -1,4 +1,7 @@
 #mapa-mapbox-tarea-mini{
+    text-align: center;
+    align-items: center;
+    align-self: center;
     width: 150px;
     height: 150px;
     background-color: #368dce;

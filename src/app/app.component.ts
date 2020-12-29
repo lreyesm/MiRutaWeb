@@ -28,7 +28,7 @@ export class AppComponent implements OnDestroy{
               private _requestService: RequestService) {
                 this.searching_empresas = true;
                 this._requestService.getEmpresas().subscribe(res=>{
-                  //console.log("AppComponent._requestService.getEmpresas", res);
+                  // console.log("_requestService.getEmpresas", res);
                   this.empresas = res;
                   
                   // this.selectEmpresa(this.empresas[0].empresa, this.empresas[0].nombre_empresa)
@@ -91,11 +91,14 @@ export class AppComponent implements OnDestroy{
         this._requestService.loginCliente(this.selectedEmpresa, email, password).subscribe(cliente=>{
           if(cliente){
             sessionStorage.setItem('cliente', JSON.stringify(cliente));
-            //console.log("login", "Iniciando en Firebase");
-            this.onSignIn(email, password);
+            // console.log("login", "Iniciando en Firebase");
+            // this.onSignIn(email, password); //sin firebase con firebase
+            // console.log("login", "correcto");
+            this.isLogged = true; //sin firebase
+            this.loading_signin = false;
             this.showWrongEmailPassword = false;
           }else{
-            //console.log("login", "fallido");
+            // console.log("login", "fallido");
             this.showWrongEmailPassword = true;
             this.loading_signin = false;
           }    

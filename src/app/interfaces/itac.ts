@@ -67,6 +67,7 @@ export interface Itac {
       descripcion_foto_6 : string,
       descripcion_foto_7 : string,
       descripcion_foto_8 : string,
+      descripcion_foto_9 : string,
       foto_1 : string,
       foto_2 : string,
       foto_3 : string,
