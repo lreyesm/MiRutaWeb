@@ -23,8 +23,8 @@ export class RequestService {
   empresa: string = "";
   searchResult: any[];
 
-  // public siteUrl = 'https://mywateroute.com/Mi_Ruta/';
-  siteUrl = 'http://localhost/';
+  public siteUrl = 'https://mywateroute.com/Mi_Ruta/';
+  // siteUrl = 'http://localhost/';
 
   constructor(private http: HttpClient,
               private _globalFunctions: GlobalfunctionsService) { 
