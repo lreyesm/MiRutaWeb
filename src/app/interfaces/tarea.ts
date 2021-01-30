@@ -1,6 +1,6 @@
 export interface Tarea {
      id : string,
-     idOrdenCABB: string,//siempre es 3 para su empresa
+     idOrdenCABB: string,
      /* FechImportacion */ FechImportacion: string,
      /* numero_interno */ NUMIN: string, //identificador unico de tarea
      /* GESTOR */ GESTOR: string, //campo para saber la empresa empladora del trabajo a realizar
