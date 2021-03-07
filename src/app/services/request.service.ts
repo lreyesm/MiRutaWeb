@@ -7,6 +7,7 @@ import { Itac } from '../interfaces/itac';
 import { Cliente } from '../interfaces/cliente';
 import { Observable, of, throwError } from 'rxjs';
 import { GlobalfunctionsService } from './globalfunctions.service';
+import { Answer } from '../interfaces/answer';
 
 @Injectable({
   providedIn: 'root'
@@ -22,9 +23,10 @@ export class RequestService {
   itac: Itac;
   empresa: string = "";
   searchResult: any[];
+  x_token: string;
 
-  public siteUrl = 'https://mywateroute.com/Mi_Ruta/';
-  // siteUrl = 'http://localhost/';
+  // public siteUrl = 'https://mywateroute.com/Mi_Ruta/';
+  siteUrl = 'http://localhost:3000/api/v1/';
 
   constructor(private http: HttpClient,
               private _globalFunctions: GlobalfunctionsService) { 
@@ -79,32 +81,63 @@ export class RequestService {
   }
 
   loginCliente(empresa: string, user_name: string, password: string){
-    let script = 'login_cliente.php'
-    const url = this.siteUrl + script
+    let script = 'clientes/login';
+    const url = this.siteUrl + script;
     //console.log(url);
 
-    const data = new FormData()     
-    data.append('user_name',user_name);  
-    data.append('password',password);  
+    const data = new FormData();    
+    //***************** PHP ***************************/
+    // data.append('user_name', user_name); 
+    // data.append('password', password);  
+    //***************** PHP ***************************/
+
+    //*****************NodeJS***************************/
+    data.append('usuario', user_name);  //
+    data.append('clave', password);  
+    //*****************NodeJS***************************/
+
     data.append('empresa', empresa);  
 
     const options  = {
       headers: new HttpHeaders({
         'Accept': '*/*'
       })
-      , responseType: 'text' as 'text'
+      //***************** PHP ***************************/
+      // , responseType: 'text' as 'text'
+      //***************** PHP ***************************/
     };
 
-    return this.http.post(url, data, options).pipe(map((res:string)=>{
-      //console.log("loginCliente", empresa, res);
-      if(res.includes("not success")){
+    return this.http.post(url, data, options).pipe(
+      map((res:Answer)=>{
+        //console.log("loginCliente", empresa, res);
+        //***************** PHP ***************************/
+        // if(res.includes("not success")){
+        //   return null;
+        // }else{
+        //   this.cliente = JSON.parse(res)[0];
+        //   return this.cliente;
+        // }    
+        //***************** PHP ***************************/      
+
+        //*****************NodeJS***************************/     
+        if(res.success){
+          this.cliente = res.data.cliente;
+          this.x_token = res.data.token;
+          sessionStorage.setItem("x-token", this.x_token);
+          // console.log(res);
+          // console.log(this.x_token);
+          // console.log(this.cliente);
+          return this.cliente;
+        }else{
+          console.log(res);
+          return null;
+        }     
+        //*****************NodeJS***************************/
+      },
+      catchError(error =>{
         return null;
-      }else{
-        this.cliente = JSON.parse(res)[0];
-        return this.cliente;
-      }     
-      
-    }));
+      })
+    ));
   }
 
   getItacsAmount(empresa: string){
@@ -377,12 +410,26 @@ export class RequestService {
   }
 
   getEmpresas(){
-    let script = 'get_empresas.php';
-
+    let script = 'empresas'; //route of request
     //console.log(this.siteUrl + script);
-    return this.http.get(this.siteUrl + script).pipe(map((res:any)=>{
-      return res;
-    }));
+    return this.http.get(this.siteUrl + script).pipe(
+      map((res:Answer)=>{
+        //***************** PHP ***************************/
+        //return res;
+        //***************** PHP ***************************/
+
+        //*****************NodeJS***************************/
+        if(res.success){
+          // console.log(res);
+          return res.data;
+        }
+        return [];
+        //*****************NodeJS***************************/
+      },
+      catchError(error =>{
+        return [];
+      })
+    ));
   }
 
   

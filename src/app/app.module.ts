@@ -7,7 +7,7 @@ import { APP_ROUTING } from './app.routes';
 
 
 ///Modulos///////////////////////////////////////////////////////////////////
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AgmCoreModule } from '@agm/core'; //Mapas Mapbox
 import { AuthModule, AuthService } from '@auth0/auth0-angular'; //Autenticación
 import { AngularFireModule } from '@angular/fire'; //Autenticación
@@ -43,6 +43,7 @@ import { AuthGuardService } from './services/auth-guard.service';
 import { TareasSearchComponent } from './components/tareas-search/tareas-search.component';
 import { ItacsSearchComponent } from './components/itacs-search/itacs-search.component';
 import { NavBarContactComponent } from './components/nav-bar-contact/nav-bar-contact.component';
+import { InterceptorService } from './interceptors/interceptor.service';
 
 
 
@@ -102,6 +103,11 @@ import { NavBarContactComponent } from './components/nav-bar-contact/nav-bar-con
     })
   ],
   providers: [
+    { 
+      provide: HTTP_INTERCEPTORS,
+      useClass: InterceptorService,
+      multi: true
+    },
     AuthService, 
     RequestService, 
     GlobalfunctionsService,
