@@ -33,9 +33,15 @@ export class MapaMapBoxTareaMiniComponent implements OnInit {
                   this.id = params['id'];
                   //console.log("id",this.id);
                   
-                 this._requestService.getTarea(this.empresa, this.id).subscribe((tarea: any)=>{
-                    let jsonArray = JSON.parse(tarea);
-                    this.tarea = jsonArray[0];
+                  this._requestService.getTarea(this.empresa, this.id).subscribe((tarea: any)=>{
+                    //***************** PHP ***************************/
+                    // let jsonArray = JSON.parse(tarea);
+                    // this.tarea = jsonArray[0];
+                    //***************** PHP ***************************/
+
+                    //***************** NodeJs ***************************/
+                    this.tarea = tarea;
+                    //***************** NodeJs ***************************/
                     let lat = _globalFunctionsService.getLatitudTarea(this.tarea);
                     let lng = _globalFunctionsService.getLongitudTarea(this.tarea);
 

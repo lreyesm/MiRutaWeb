@@ -34,8 +34,14 @@ export class MapaMapBoxItacMiniComponent implements OnInit {
                   //console.log("id",this.id);
                   
                   this._requestService.getItac(this.empresa, this.id).subscribe((itac:any)=>{
-                      let jsonArray = JSON.parse(itac);
-                      this.itac = jsonArray[0];
+                      //*****************PHP***************************/
+                      // let jsonArray = JSON.parse(itac);
+                      // this.itac = jsonArray[0];
+                      //*****************NodeJS***************************/
+                      
+                      //*****************NodeJS***************************/
+                      this.itac = itac;
+                      //*****************NodeJS***************************/
 
                       let lat = _globalFunctionsService.getLatitudItac(this.itac);
                       let lng = _globalFunctionsService.getLongitudItac(this.itac);

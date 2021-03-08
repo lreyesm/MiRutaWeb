@@ -37,7 +37,7 @@ export class AppComponent implements OnDestroy{
   }
 
   ngOnInit(): void {
-    if(sessionStorage.getItem('user')!==null){
+    if(sessionStorage.getItem('cliente')!==null){
       this.isLogged = true;
     }else{
       this.isLogged = false;

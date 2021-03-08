@@ -38,10 +38,16 @@ export class TareaComponent implements OnInit {
                   this.id = parametros['id'];
                   if(this.id != -1){
                     this._requestService.getTarea(this.empresa, this.id).subscribe((tarea: any)=>{
-                      if(this._globalfunctionsService.isJson(tarea)){
-                        let jsonArray = JSON.parse(tarea);
-                        this.tarea = jsonArray[0];
-                        // //console.log("Tarea",this.tarea);
+                      //***************** NodeJS ***************************/
+                      this.tarea = tarea;
+                      //***************** NodeJS ***************************/
+
+                      //***************** PHP ***************************/
+                      // if(this._globalfunctionsService.isJson(tarea)){
+                        // let jsonArray = JSON.parse(tarea);
+                        // this.tarea = jsonArray[0];
+                        // // //console.log("Tarea",this.tarea);
+                        //***************** PHP ***************************/
                         if(this.tarea){
                           this.dirFolder = "Empresas/"+ this.empresa //GECONTA
                           +"/Gestores/"+this.tarea.GESTOR+"/fotos_tareas/"
@@ -56,18 +62,26 @@ export class TareaComponent implements OnInit {
                           let cod_emplazamiento = this.tarea.codigo_de_geolocalizacion;
                           if(this._globalfunctionsService.checkIfFieldIsValid(cod_emplazamiento)){
                             this._requestService.getItacsWhere(this.empresa, new ItacFieldOptions().codigo_itac, cod_emplazamiento).subscribe((itacs: any)=>{
-                              if(this._globalfunctionsService.isJson(itacs)){
-                                let jsonArray = JSON.parse(itacs);
-                                if(jsonArray){
-                                  this.itac = jsonArray[0];
-                                  //console.log("Itac",this.itac);
-                                }
-                              }
+                              //***************** PHP ***************************/
+                              // if(this._globalfunctionsService.isJson(itacs)){
+                              //   let jsonArray = JSON.parse(itacs);
+                              //   if(jsonArray){
+                              //     this.itac = jsonArray[0];
+                              //     //console.log("Itac",this.itac);
+                              //   }
+                              // }                              
+                              //***************** PHP ***************************/
+                              
+                              //***************** NodeJS ***************************/
+                              this.itac = itacs[0];
+                              //***************** NodeJS ***************************/
                             })
                           }
-                        }else{
-                          router.navigate(['/tareas']);
-                        }
+                        //***************** PHP ***************************/
+                        // }else{
+                        //   router.navigate(['/tareas']);
+                        // }
+                        //***************** PHP ***************************/
                       }else{
                         router.navigate(['/tareas']);
                       }

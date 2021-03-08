@@ -14,23 +14,26 @@ export class InterceptorService implements HttpInterceptor{
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     // throw new Error('Method not implemented.');
-    console.log("******************* intercept ***********************");
-    console.log(req.url);
+    // console.log("******************* intercept ***********************");
+    // console.log(req.url);
     const x_token = sessionStorage.getItem("x-token");
 
-    const token_headers = new HttpHeaders({
-      'x-token': x_token
-    });
-    const reqClone = req.clone({
-      headers: token_headers
-    });
-    return next.handle(reqClone).pipe(
-      catchError((error: HttpErrorResponse)=>{
-        console.log("**********************  error *************************");
-        console.log(error);
-        return throwError(error.message);
-      })
-    );
+    if(x_token){
+      const token_headers = new HttpHeaders({
+        'x-token': x_token
+      });
+      const reqClone = req.clone({
+        headers: token_headers
+      });
+      return next.handle(reqClone).pipe(
+        catchError((error: HttpErrorResponse)=>{
+          // console.log("**********************  error *************************");
+          // console.log(error);
+          return throwError(error.message);
+        })
+      );
+    }
+    return next.handle(req);
     
   }
 }

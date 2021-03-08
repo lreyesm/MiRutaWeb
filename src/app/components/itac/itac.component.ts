@@ -34,10 +34,17 @@ export class ItacComponent implements OnInit {
                   this.id = parametros['id'];
                   if(this.id != -1){
                     this._requestService.getItac(this.empresa, this.id).subscribe((itac: any)=>{                      
-                      let jsonArray = JSON.parse(itac);
-                      this.itac = jsonArray[0];
+                      
+                      //***************** PHP ***************************/
+                      // let jsonArray = JSON.parse(itac);
+                      // this.itac = jsonArray[0];
+                      //***************** PHP ***************************/
+ 
+                      //***************** NodeJS ***************************/
+                      this.itac = itac;
+                      //***************** NodeJS ***************************/
 
-                      //console.log("Itac",this.itac);
+                      console.log("Itac",this.itac);
 
                       if(this.itac){
                         this.dirFolder = "Empresas/"+this.empresa //GECONTA

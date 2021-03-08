@@ -123,13 +123,14 @@ export class RequestService {
         if(res.success){
           this.cliente = res.data.cliente;
           this.x_token = res.data.token;
-          sessionStorage.setItem("x-token", this.x_token);
+          sessionStorage.setItem('x-token', this.x_token);
+          // sessionStorage.setItem('cliente', JSON.stringify(this.cliente)); //I'm setting this on 
           // console.log(res);
           // console.log(this.x_token);
           // console.log(this.cliente);
           return this.cliente;
         }else{
-          console.log(res);
+          // console.log(res);
           return null;
         }     
         //*****************NodeJS***************************/
@@ -190,50 +191,94 @@ export class RequestService {
   }
 
   getItac(empresa: string, id_in_server: number){
-    let script = 'get_itac_id.php'
-    const url = this.siteUrl + script
+    //***************** PHP ***************************/
+    // let script = 'get_itac_id.php'
+    //***************** PHP ***************************/
+
+    
+    //*****************NodeJS***************************/
+    let script = 'itacs/id/' + String(id_in_server);
+    //*****************NodeJS***************************/
+
+    const url = this.siteUrl + script;
     //console.log(url);
 
-    const data = new FormData()     
-    data.append('id', id_in_server.toString());  
-    data.append('empresa', empresa);  
+    const data = new FormData()    
+    //***************** PHP ***************************/ 
+    // data.append('id', id_in_server.toString());  
+    // data.append('empresa', empresa); 
+    //***************** PHP ***************************/ 
+
+    
+    //*****************NodeJS***************************/
+    data.append('empresa', empresa); 
+    //*****************NodeJS***************************/    
 
     const options  = {
       headers: new HttpHeaders({
         'Accept': '*/*'
       })
-      , responseType: 'text' as 'text'
+      //***************** PHP ***************************/
+      // , responseType: 'text' as 'text'
+      //***************** PHP ***************************/
     };
 
-    return this.http.post(url, data, options).pipe(map((res:any)=>{
-      this.itac = res;
-      //console.log("getItac", empresa, res);
+    return this.http.post(url, data, options).pipe(map((res:any)=>{      
+      //***************** PHP ***************************/
+      // this.itac = res;
+      //***************** PHP ***************************/
+
+      //*****************NodeJS***************************/
+      if(res.data){
+        // console.log(res['data']);
+        this.itac = res.data[0];
+        // console.log(this.itac);
+      }
+      //*****************NodeJS***************************/
+      // console.log("getItac", empresa, res);
       return this.itac;
     }));
   }
 
   getItacsWhere(empresa: string, field: string, value: string){
-    let script = 'get_itacs_where_field_contains.php'
-    const url = this.siteUrl + script
+    //***************** PHP ***************************/
+    // let script = 'get_itacs_where_field_contains.php';
+    //***************** PHP ***************************/
+
+    
+    //*****************NodeJS***************************/
+    let script = 'itacs/custom_query'
+    //*****************NodeJS***************************/
+    
+    const url = this.siteUrl + script;
     //console.log(url);
 
-    const data = new FormData() 
-    data.append('empresa', empresa);      
-    data.append('field', field);  
-    data.append('value', value); 
+    const data = new FormData();
+    //***************** PHP ***************************/
+    // data.append('empresa', empresa);      
+    // data.append('field', field);  
+    // data.append('value', value); 
+    //***************** PHP ***************************/
 
-    //console.log("getItacsWhere", empresa, field, value);
+    
+    //*****************NodeJS***************************/ 
+    const query = field + " LIKE '" + value + "'"; 
+    data.append('empresa', empresa);  
+    data.append('where', query); 
+    //*****************NodeJS***************************/
+    // console.log("getItacsWhere", empresa, query);
 
     const options  = {
       headers: new HttpHeaders({
         'Accept': '*/*'
       })
-      , responseType: 'text' as 'text'
+      //***************** PHP ***************************/
+      // , responseType: 'text' as 'text'
+      //***************** PHP ***************************/
     };
 
     return this.http.post(url, data, options).pipe(map((res:any)=>{
-      this.searchResult = res;      
-      
+      this.searchResult = res.data;      
       return this.searchResult;
     }));
   }
@@ -261,32 +306,6 @@ export class RequestService {
       return this.searchResult;
     }));
   }
-  getTareasCustomQuery(empresa: string, query: string, limite: number = 500, id_start: number = 0){
-    let script = 'get_tareas_with_limit_custom_query.php'
-    const url = this.siteUrl + script
-    //console.log(url);
-
-    const data = new FormData()     
-    data.append('query', query);  
-    data.append('LIMIT', limite.toString());
-    data.append('id_start', id_start.toString()); 
-    data.append('empresa', empresa);   
-
-    //console.log("getTareasWhere", empresa, field, value);
-
-    const options  = {
-      headers: new HttpHeaders({
-        'Accept': '*/*'
-      })
-      , responseType: 'text' as 'text'
-    };
-
-    return this.http.post(url, data, options).pipe(map((res:any)=>{
-      this.tareas = res;  
-      return this.tareas;
-    }));
-  }
-
   getTareas(empresa: string, limite: number = 500, offset: number = 0){
     let script = 'get_tareas_with_limit.php'
     const url = this.siteUrl + script
@@ -337,54 +356,178 @@ export class RequestService {
     }));
   }
   getTareasAmountCustomQuery(empresa: string, query: string){
-    let script = 'get_tareas_amount_custom_query.php'
+    //***************** PHP ***************************/
+    // let script = 'get_tareas_amount_custom_query.php';
+    //***************** PHP ***************************/
+
+    //*****************NodeJS***************************/
+    let script = 'tareas/count';
+    //*****************NodeJS***************************/
+
     const url = this.siteUrl + script
 
     const data = new FormData()
+    //***************** PHP ***************************/
+    // data.append('empresa', empresa);
+    // data.append('query', query);   
+    //***************** PHP ***************************/
+
+    //*****************NodeJS***************************/
     data.append('empresa', empresa);
-    data.append('query', query);   
+    data.append('where', query);  
+    //*****************NodeJS***************************/
+
+    console.log("****************** query ***************** ", query);
+    const options  = {
+      headers: new HttpHeaders({
+        'Accept': '*/*'
+      })
+      //***************** PHP ***************************/
+      // , responseType: 'text' as 'text'
+      //***************** PHP ***************************/
+    };
+
+    return this.http.post(url, data, options).pipe(
+      map((res:any)=>{
+     //  console.log("getTareasAmountCustomQuery", res);
+     //***************** PHP ***************************/
+      // if(this._globalFunctions.isJson(res)){
+      //   let jsonInfo = JSON.parse(res);
+      //   this.countTareas = jsonInfo.count_tareas;
+      //   ////  console.log(jsonInfo);
+      //   ////  console.log('this.countTareas', this.countTareas);
+      //   sessionStorage.setItem('jsonInfoCountTareas', JSON.stringify(jsonInfo));
+      //   return this.countTareas;
+      // }else{
+      //   return this.countTareas;
+      // }
+      //***************** PHP ***************************/
+     
+      //*****************NodeJS***************************/
+        if(res.success){
+          // console.log(res);
+          return res.count;
+        }
+        return [];
+        //*****************NodeJS***************************/
+      },
+      catchError(error =>{
+        return [];
+      })
+    ));
+  }
+  getTareasCustomQuery(empresa: string, query: string, 
+    limite: number = 500, /* PHP id_start: number = 0 */ page: number){
+    //***************** PHP ***************************/
+    // let script = 'get_tareas_with_limit_custom_query.php'
+    //***************** PHP ***************************/
+
+    //*****************NodeJS***************************/
+    let script = 'tareas/page/' + String(page);
+    //*****************NodeJS***************************/
+
+    const url = this.siteUrl + script
+    console.log(url);
+
+    const data = new FormData();
+
+    //***************** PHP ***************************/
+    // data.append('query', query);  
+    // data.append('LIMIT', limite.toString());
+    // data.append('id_start', id_start.toString());
+    // data.append('empresa', empresa); 
+    //***************** PHP ***************************/  
+
+    //*****************NodeJS***************************/
+    data.append('where', query);  
+    data.append('limit', limite.toString());
+    data.append('empresa', empresa); 
+    //*****************NodeJS***************************/
+
+    //console.log("getTareasWhere", empresa, field, value);
 
     const options  = {
       headers: new HttpHeaders({
         'Accept': '*/*'
       })
-      , responseType: 'text' as 'text'
+      //***************** PHP ***************************/  
+      // , responseType: 'text' as 'text'
+      //***************** PHP ***************************/  
     };
 
-    return this.http.post(url, data, options).pipe(map((res:any)=>{
-     //  console.log("getTareasAmountCustomQuery", res);
-      if(this._globalFunctions.isJson(res)){
-        let jsonInfo = JSON.parse(res);
-        this.countTareas = jsonInfo.count_tareas;
-        ////  console.log(jsonInfo);
-        ////  console.log('this.countTareas', this.countTareas);
-        sessionStorage.setItem('jsonInfoCountTareas', JSON.stringify(jsonInfo));
-        return this.countTareas;
-      }else{
-        return this.countTareas;
-      }
-    }));
+    //***************** PHP ***************************/ 
+    // return this.http.post(url, data, options).pipe(
+    //   map((res:any)=>{ 
+    //     // this.tareas = res;  
+    //     // return this.tareas;
+    //   },
+    //   catchError(error =>{
+    //     return [];
+    //   })
+    // ));
+    //***************** PHP ***************************/ 
+    
+    return this.http.post(url, data, options).pipe(
+      map((res:any)=>{
+        //***************** PHP ***************************/  
+        // this.tareas = res;  
+        // return this.tareas;
+        //***************** PHP ***************************/  
+        
+        //*****************NodeJS***************************/
+        this.tareas = res.data;  
+        return this.tareas;
+        //*****************NodeJS***************************/
+      },
+      catchError(error =>{
+        return [];
+      })
+    ));
   }
-
   getTarea(empresa: string, id_in_server: number){
-    let script = 'get_tarea_id.php'
-    const url = this.siteUrl + script
+    //***************** PHP ***************************/
+    // let script = 'get_tarea_id.php'
+    //***************** PHP ***************************/
+    
+    //*****************NodeJS***************************/
+    let script = 'tareas/id/' + String(id_in_server);
+    //*****************NodeJS***************************/
+
+    const url = this.siteUrl + script;
     //console.log(url);
 
-    const data = new FormData()     
-    data.append('id', id_in_server.toString());  
-    data.append('empresa', empresa);  
+    const data = new FormData();
+
+    //***************** PHP ***************************/
+    // data.append('id', id_in_server.toString());  
+    // data.append('empresa', empresa);  
+    //***************** PHP ***************************/
+
+    //*****************NodeJS***************************/
+    data.append('empresa', empresa); 
+    //*****************NodeJS***************************/    
 
     const options  = {
       headers: new HttpHeaders({
         'Accept': '*/*'
       })
-      , responseType: 'text' as 'text'
+      //***************** PHP ***************************/
+      // , responseType: 'text' as 'text'
+      //***************** PHP ***************************/
     };
 
     return this.http.post(url, data, options).pipe(map((res:any)=>{
-      this.tarea = res;
-      // //console.log("getTareaId", empresa, res);
+      //***************** PHP ***************************/
+      // this.tarea = res;
+      //***************** PHP ***************************/
+
+      //*****************NodeJS***************************/
+      if(res.data){
+        // console.log(res['data']);
+        this.tarea = res.data[0];
+        // console.log(this.tarea);
+      }
+      //*****************NodeJS***************************/
       return this.tarea;
     }));
   }
@@ -400,7 +543,9 @@ export class RequestService {
       headers: new HttpHeaders({
         'Accept': '*/*'
       })
-      , responseType: 'text' as 'text'
+      //***************** PHP ***************************/
+      // , responseType: 'text' as 'text'
+      //***************** PHP ***************************/
     };
 
     //console.log("POST", { url }, data);

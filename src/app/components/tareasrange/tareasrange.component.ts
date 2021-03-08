@@ -20,7 +20,7 @@ export class TareasrangeComponent implements OnInit {
   
   optionSelected: string = "Seleccione";
   searchOptions: string[] = [];
-  currentDisplayed: number = 1;
+  currentDisplayed: number = 1; //page
   numberDisplayed: number = 500;
   numberPaginations: number = 0;
   countTareas: number = 0;
@@ -69,38 +69,46 @@ export class TareasrangeComponent implements OnInit {
 
       this._requestService.getTareasAmountCustomQuery(this.empresa, this.query).subscribe(data=>{
         this.countTareas = data;
-        this.jsonInfo = JSON.parse(sessionStorage.getItem('jsonInfoCountTareas')); 
-       //  console.log("this.countTareas ", this.countTareas);  
-
-        let offset = (this.currentDisplayed-1) * this.numberDisplayed;
-
-        if(offset === 0){
-          offset = 1;
-        }
-       //  console.log("offset", offset, "-----------------------------------------------------------------");
-       //  console.log("this.jsonInfo["+"id_"+ offset.toString()+"]", this.jsonInfo["id_"+ offset.toString()], "-----------------------------------------------------------------");
-        let id_start = Number(this.jsonInfo["id_"+ offset.toString()]);
+        //***************** PHP ***************************/
+        // this.jsonInfo = JSON.parse(sessionStorage.getItem('jsonInfoCountTareas')); 
+        //***************** PHP ***************************/
+        // console.log("this.countTareas ", this.countTareas);  
         
+        //***************** PHP ***************************/
+        // let offset = (this.currentDisplayed-1) * this.numberDisplayed;
+        // if(offset === 0){
+        //   offset = 1;
+        // }
+        //  let id_start = Number(this.jsonInfo["id_"+ offset.toString()]);
+        //***************** PHP ***************************/
+
         this._requestService.getTareasCustomQuery(this.empresa, this.query,
-          this.numberDisplayed, id_start).subscribe((data:any)=>{
-            if(this._globalFunctions.isJson(data)){
-              let jsonArray = JSON.parse(data);
-              for(let i in jsonArray){
-                // //console.log("data[i]", jsonArray[i]);
-                this.tareas[i]= jsonArray[i];
-              }  
+          this.numberDisplayed, /* PHP id_start */ this.currentDisplayed).subscribe((data:any)=>{
+            this.tareas = data;
+            //***************** PHP ***************************/
+            // if(this._globalFunctions.isJson(data)){
+              // let jsonArray = JSON.parse(data);
+              // for(let i in jsonArray){
+              //   // //console.log("data[i]", jsonArray[i]);
+              //   this.tareas[i]= jsonArray[i];
+              // }  
+              // this.tareas = data;
+              //***************** PHP ***************************/
+            
               this.numberPaginations = Math.ceil(this.countTareas / this.numberDisplayed);
-             //  console.log("numberPaginations", this.numberPaginations, "-----------------------------------------------------------------");
-             //  console.log("countTareas", this.countTareas, "-----------------------------------------------------------------");
+              //  console.log("numberPaginations", this.numberPaginations, "-----------------------------------------------------------------");
+              //  console.log("countTareas", this.countTareas, "-----------------------------------------------------------------");
               if(Number(this.currentDisplayed)>= this.numberPaginations){
                 this.lastPage = true;
               }else{
                 this.lastPage = false;
               }
               this.loading = false;
-            }else{
-              this.loading = false;
-            }
+              //***************** PHP ***************************/
+              // }else{
+              //   this.loading = false;
+              // }
+              //***************** PHP ***************************/
         });
       });
       
